@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question For You</title>
+    <title>You Cannot Escape This Question</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -13,13 +15,46 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a0a0a 0%, #2d0a1a 50%, #1a0a0a 100%);
+            background: linear-gradient(135deg, #0a0000 0%, #1a0505 50%, #0a0000 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Georgia', serif;
             overflow: hidden;
             position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .lightning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .lightning.flash {
+            animation: lightning-flash 0.1s ease-out;
+        }
+
+        @keyframes lightning-flash {
+            0% { opacity: 0.8; }
+            100% { opacity: 0; }
         }
 
         .hearts-container {
@@ -38,6 +73,20 @@
             font-size: 20px;
             animation: float-up 4s ease-in infinite;
             opacity: 0;
+            filter: drop-shadow(0 0 10px rgba(139, 0, 0, 0.8));
+        }
+
+        .heart.dripping::after {
+            content: '💧';
+            position: absolute;
+            font-size: 10px;
+            animation: drip 1s ease-in infinite;
+            filter: hue-rotate(330deg) saturate(3);
+        }
+
+        @keyframes drip {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(30px); opacity: 0; }
         }
 
         @keyframes float-up {
@@ -46,10 +95,10 @@
                 opacity: 0;
             }
             10% {
-                opacity: 1;
+                opacity: 0.8;
             }
             90% {
-                opacity: 1;
+                opacity: 0.8;
             }
             100% {
                 transform: translateY(-100px) rotate(720deg);
@@ -58,59 +107,92 @@
         }
 
         .card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            background: linear-gradient(145deg, rgba(50, 0, 0, 0.9), rgba(20, 0, 0, 0.95));
             backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 60px 50px;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
-                        inset 0 0 60px rgba(255, 100, 150, 0.1);
-            border: 1px solid rgba(255, 150, 180, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8),
+                        inset 0 0 60px rgba(139, 0, 0, 0.3),
+                        0 0 100px rgba(139, 0, 0, 0.4);
+            border: 2px solid rgba(139, 0, 0, 0.6);
             z-index: 10;
             position: relative;
             max-width: 500px;
-            animation: pulse-glow 2s ease-in-out infinite;
+            animation: ominous-pulse 2s ease-in-out infinite;
         }
 
-        @keyframes pulse-glow {
+        @keyframes ominous-pulse {
             0%, 100% {
-                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
-                            inset 0 0 60px rgba(255, 100, 150, 0.1),
-                            0 0 30px rgba(255, 100, 150, 0.2);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8),
+                            inset 0 0 60px rgba(139, 0, 0, 0.3),
+                            0 0 50px rgba(139, 0, 0, 0.3);
+                transform: scale(1);
             }
             50% {
-                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
-                            inset 0 0 60px rgba(255, 100, 150, 0.2),
-                            0 0 60px rgba(255, 100, 150, 0.4);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8),
+                            inset 0 0 80px rgba(139, 0, 0, 0.5),
+                            0 0 100px rgba(139, 0, 0, 0.6);
+                transform: scale(1.02);
             }
         }
 
         .big-heart {
             font-size: 80px;
-            animation: heartbeat 1s ease-in-out infinite;
+            animation: creepy-heartbeat 0.8s ease-in-out infinite;
             display: inline-block;
             margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(139, 0, 0, 0.8)) hue-rotate(-10deg) saturate(2);
         }
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            15% { transform: scale(1.15); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.1); }
+        @keyframes creepy-heartbeat {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(139, 0, 0, 0.8)); }
+            10% { transform: scale(1.3); filter: drop-shadow(0 0 40px rgba(200, 0, 0, 1)); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.2); filter: drop-shadow(0 0 30px rgba(180, 0, 0, 0.9)); }
+            40% { transform: scale(1); }
         }
 
         h1 {
-            color: #ff6b9d;
+            color: #ff3333;
             font-size: 2.5rem;
             margin-bottom: 15px;
-            text-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.8),
+                         0 0 60px rgba(139, 0, 0, 0.6);
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.3; }
+            94% { opacity: 1; }
+            96% { opacity: 0.5; }
+            97% { opacity: 1; }
         }
 
         .question {
-            color: #ffd4e5;
+            color: #ffcccc;
             font-size: 1.8rem;
             margin: 30px 0;
             line-height: 1.4;
+            text-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
+        }
+
+        .warning-text {
+            color: #ff0000;
+            font-family: 'Creepster', cursive;
+            font-size: 1rem;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            animation: warning-pulse 1s infinite;
+        }
+
+        @keyframes warning-pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
 
         .buttons {
@@ -133,21 +215,76 @@
         }
 
         .btn-yes {
-            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            background: linear-gradient(135deg, #8b0000, #ff3333);
             color: white;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.6),
+                        0 0 30px rgba(255, 0, 0, 0.3);
+            animation: yes-glow 1.5s infinite;
+        }
+
+        @keyframes yes-glow {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(139, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 10px 50px rgba(139, 0, 0, 0.8), 0 0 60px rgba(255, 0, 0, 0.6);
+                transform: scale(1.05);
+            }
         }
 
         .btn-yes:hover {
-            transform: scale(1.1);
-            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+            transform: scale(1.15);
+            box-shadow: 0 15px 50px rgba(255, 0, 0, 0.8),
+                        0 0 80px rgba(255, 0, 0, 0.5);
         }
 
         .btn-no {
-            background: linear-gradient(135deg, #666, #888);
-            color: white;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #333, #555);
+            color: #999;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
             position: relative;
+            transition: all 0.1s;
+        }
+
+        .btn-no:hover {
+            background: linear-gradient(135deg, #220000, #440000);
+            color: #ff6666;
+        }
+
+        .btn-no.shrinking {
+            transform: scale(0.8);
+            opacity: 0.7;
+        }
+
+        .btn-no.terrified {
+            animation: terrified-shake 0.1s infinite;
+            background: linear-gradient(135deg, #440000, #660000) !important;
+            color: #ff0000 !important;
+        }
+
+        @keyframes terrified-shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-2px, 1px) rotate(-1deg); }
+            50% { transform: translate(2px, -1px) rotate(1deg); }
+            75% { transform: translate(-1px, 2px) rotate(-1deg); }
+        }
+
+        .screen-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-10px, -5px); }
+            20% { transform: translate(10px, 5px); }
+            30% { transform: translate(-10px, 5px); }
+            40% { transform: translate(10px, -5px); }
+            50% { transform: translate(-5px, 10px); }
+            60% { transform: translate(5px, -10px); }
+            70% { transform: translate(-5px, -5px); }
+            80% { transform: translate(5px, 5px); }
+            90% { transform: translate(-2px, 2px); }
         }
 
         .celebration {
@@ -159,15 +296,14 @@
         .celebration h1 {
             font-size: 3rem;
             margin-bottom: 20px;
-            animation: rainbow 2s linear infinite;
+            animation: celebration-glow 1s linear infinite;
+            color: #ff6b9d !important;
         }
 
-        @keyframes rainbow {
-            0% { color: #ff6b9d; }
-            25% { color: #ff8fab; }
-            50% { color: #ffc8dd; }
-            75% { color: #ff8fab; }
-            100% { color: #ff6b9d; }
+        @keyframes celebration-glow {
+            0% { color: #ff3333; text-shadow: 0 0 30px #ff0000; }
+            50% { color: #ff6b9d; text-shadow: 0 0 50px #ff6b9d; }
+            100% { color: #ff3333; text-shadow: 0 0 30px #ff0000; }
         }
 
         .celebration p {
@@ -205,11 +341,11 @@
         }
 
         .date-details {
-            background: rgba(255, 107, 157, 0.2);
+            background: rgba(139, 0, 0, 0.3);
             border-radius: 20px;
             padding: 25px;
             margin-top: 30px;
-            border: 1px solid rgba(255, 150, 180, 0.3);
+            border: 1px solid rgba(255, 100, 100, 0.3);
         }
 
         .date-details h2 {
@@ -221,16 +357,68 @@
             font-size: 1.2rem !important;
             margin: 8px 0 !important;
         }
+
+        .skull-float {
+            position: fixed;
+            font-size: 30px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 50;
+            animation: skull-appear 2s ease-out forwards;
+        }
+
+        @keyframes skull-appear {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 0.8; transform: scale(1.2) rotate(180deg); }
+            100% { opacity: 0; transform: scale(0.5) rotate(360deg) translateY(-100px); }
+        }
+
+        .blood-drip {
+            position: fixed;
+            top: 0;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(to bottom, #8b0000, #ff0000);
+            border-radius: 0 0 50% 50%;
+            animation: drip-down 3s ease-in forwards;
+            z-index: 2;
+        }
+
+        @keyframes drip-down {
+            0% { height: 0; opacity: 1; }
+            80% { height: 100vh; opacity: 1; }
+            100% { height: 100vh; opacity: 0; }
+        }
+
+        .doom-text {
+            position: fixed;
+            font-family: 'Creepster', cursive;
+            font-size: 4rem;
+            color: #ff0000;
+            text-shadow: 0 0 50px #ff0000, 0 0 100px #8b0000;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 200;
+            animation: doom-appear 1s ease-out forwards;
+        }
+
+        @keyframes doom-appear {
+            0% { opacity: 0; transform: scale(3); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.8); }
+        }
     </style>
 </head>
 <body>
+    <div class="lightning" id="lightning"></div>
     <div class="hearts-container" id="hearts-container"></div>
 
     <div class="card">
         <div class="main-content" id="main-content">
-            <div class="big-heart">💕</div>
-            <h1>Hey Beautiful</h1>
+            <div class="big-heart">🖤</div>
+            <h1>Hello Laasya...</h1>
             <p class="question">Will you be my Valentine?</p>
+            <p class="warning-text" id="warning">There is no escape...</p>
             <div class="buttons">
                 <button class="btn btn-yes" onclick="sayYes()">Yes! 💖</button>
                 <button class="btn btn-no" id="noBtn">No</button>
@@ -239,25 +427,25 @@
 
         <div class="celebration" id="celebration">
             <div class="big-heart">💖</div>
-            <h1>Yay!!!</h1>
+            <h1>WISE CHOICE...</h1>
             <div class="hearts-row">💕 💗 💖 💗 💕</div>
-            <p>I'm so happy!</p>
+            <p>Good Job!</p>
             <p>You just made me the luckiest person ever!</p>
             <div class="date-details">
                 <h2>It's a Date! 💝</h2>
-                <p>February 14th</p>
-                <p>I can't wait to spend it with you!</p>
+                <p>February uh someday</p>
+                <p>I can't wait to mess up ur makeup.</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Create floating hearts background
+        // Create floating hearts background - now darker and scarier
         function createHeart() {
             const container = document.getElementById('hearts-container');
             const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘'][Math.floor(Math.random() * 7)];
+            heart.className = 'heart' + (Math.random() > 0.7 ? ' dripping' : '');
+            heart.innerHTML = ['🖤', '❤️', '💔', '🩸', '❣️', '💀', '🖤'][Math.floor(Math.random() * 7)];
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
             heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
@@ -267,26 +455,84 @@
             setTimeout(() => heart.remove(), 7000);
         }
 
+        // Random lightning flashes
+        function triggerLightning() {
+            const lightning = document.getElementById('lightning');
+            lightning.classList.add('flash');
+            setTimeout(() => lightning.classList.remove('flash'), 100);
+        }
+
+        // Random lightning
+        setInterval(() => {
+            if (Math.random() > 0.7) triggerLightning();
+        }, 3000);
+
+        // Create blood drips
+        function createBloodDrip() {
+            const drip = document.createElement('div');
+            drip.className = 'blood-drip';
+            drip.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(drip);
+            setTimeout(() => drip.remove(), 3000);
+        }
+
+        // Create floating skull
+        function createSkull(x, y) {
+            const skull = document.createElement('div');
+            skull.className = 'skull-float';
+            skull.innerHTML = '💀';
+            skull.style.left = x + 'px';
+            skull.style.top = y + 'px';
+            document.body.appendChild(skull);
+            setTimeout(() => skull.remove(), 2000);
+        }
+
+        // Show doom text
+        function showDoomText(text) {
+            const doom = document.createElement('div');
+            doom.className = 'doom-text';
+            doom.textContent = text;
+            doom.style.left = '50%';
+            doom.style.top = '50%';
+            doom.style.transform = 'translate(-50%, -50%)';
+            document.body.appendChild(doom);
+            setTimeout(() => doom.remove(), 1000);
+        }
+
+        // Screen shake
+        function shakeScreen() {
+            document.body.classList.add('screen-shake');
+            setTimeout(() => document.body.classList.remove('screen-shake'), 500);
+        }
+
         // Generate hearts regularly
         setInterval(createHeart, 300);
 
-        // No button keeps running away
+        // Occasional blood drips
+        setInterval(() => {
+            if (Math.random() > 0.6) createBloodDrip();
+        }, 2000);
+
+        // No button keeps running away - NOW WITH TERROR
         const noBtn = document.getElementById('noBtn');
+        const warning = document.getElementById('warning');
         let noClickCount = 0;
-        const flirtyMessages = [
-            "Are you sure? 🥺",
-            "Please? 💕",
-            "Think again! 💖",
-            "I'll be sad... 😢",
-            "Pretty please? 🌹",
-            "One more chance? 💝"
+        let noBtnSize = 1;
+
+        const scaryMessages = [
+            "Wrong choice... 💀",
+            "You dare refuse?",
+            "THERE IS NO ESCAPE",
+            "I warned you...",
+            "Last chance... 🩸",
+            "YOUR FATE IS SEALED"
         ];
 
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('click', handleNoClick);
         noBtn.addEventListener('touchstart', moveButton);
 
-        function moveButton() {
+        function moveButton(e) {
             const card = document.querySelector('.card');
             const cardRect = card.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
@@ -298,25 +544,71 @@
             const newX = Math.random() * maxX - maxX/2;
             const newY = Math.random() * maxY;
 
-            noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+            noBtn.style.transform = `translate(${newX}px, ${newY}px) scale(${noBtnSize})`;
+
+            // Show warning and add effects
+            warning.style.opacity = '1';
+            noBtn.classList.add('terrified');
+
+            // Trigger scary effects on hover
+            if (Math.random() > 0.5) {
+                triggerLightning();
+                shakeScreen();
+            }
+
+            // Create skull at cursor
+            if (e && e.clientX) {
+                createSkull(e.clientX, e.clientY);
+            }
         }
 
-        function handleNoClick() {
+        function handleNoClick(e) {
             noClickCount++;
-            if (noClickCount < flirtyMessages.length) {
-                noBtn.textContent = flirtyMessages[noClickCount];
+            shakeScreen();
+            triggerLightning();
+
+            // Create multiple blood drips
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createBloodDrip, i * 100);
+            }
+
+            // Create skulls around click
+            for (let i = 0; i < 3; i++) {
+                createSkull(e.clientX + (Math.random() - 0.5) * 100, e.clientY + (Math.random() - 0.5) * 100);
+            }
+
+            // Shrink the button
+            noBtnSize *= 0.85;
+            noBtn.style.transform = `scale(${noBtnSize})`;
+
+            if (noClickCount < scaryMessages.length) {
+                noBtn.textContent = scaryMessages[noClickCount];
+                showDoomText(scaryMessages[noClickCount]);
+                warning.textContent = scaryMessages[noClickCount];
             } else {
-                // After many attempts, just change to yes
-                noBtn.textContent = "Okay, Yes! 💖";
-                noBtn.className = 'btn btn-yes';
-                noBtn.onclick = sayYes;
-                noBtn.onmouseover = null;
+                // After many attempts, the button dies
+                showDoomText("RESISTANCE IS FUTILE");
+                setTimeout(() => {
+                    noBtn.textContent = "I SURRENDER 💖";
+                    noBtn.className = 'btn btn-yes';
+                    noBtn.onclick = sayYes;
+                    noBtn.onmouseover = null;
+                    noBtn.style.transform = 'scale(1)';
+                }, 500);
             }
         }
 
         function sayYes() {
+            // Triumphant lightning
+            for (let i = 0; i < 5; i++) {
+                setTimeout(triggerLightning, i * 100);
+            }
+
             document.getElementById('main-content').style.display = 'none';
             document.getElementById('celebration').style.display = 'flex';
+
+            // Change mood - less scary now
+            document.body.style.background = 'linear-gradient(135deg, #1a0a0a 0%, #2d0a1a 50%, #1a0a0a 100%)';
 
             // Extra hearts explosion
             for (let i = 0; i < 50; i++) {
@@ -329,11 +621,11 @@
 
         function createSparkles() {
             const card = document.querySelector('.card');
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
                     const sparkle = document.createElement('div');
                     sparkle.className = 'sparkle';
-                    sparkle.innerHTML = '✨';
+                    sparkle.innerHTML = ['✨', '💖', '⭐', '💕'][Math.floor(Math.random() * 4)];
                     sparkle.style.left = Math.random() * 100 + '%';
                     sparkle.style.top = Math.random() * 100 + '%';
                     sparkle.style.fontSize = (Math.random() * 20 + 20) + 'px';
@@ -348,6 +640,12 @@
         for (let i = 0; i < 10; i++) {
             setTimeout(createHeart, i * 200);
         }
+
+        // Initial dramatic entrance
+        setTimeout(() => {
+            triggerLightning();
+            shakeScreen();
+        }, 500);
     </script>
 </body>
 </html>
